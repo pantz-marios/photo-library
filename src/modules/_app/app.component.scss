@@ -1,0 +1,11 @@
+body {
+  font-family: Ubuntu;
+  margin: 0px;
+  background-color: #f9fafb;
+}
+
+:host {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
