@@ -4,8 +4,7 @@
 
 
 
-const API_SERVER_ROOT_URL: string = 'http://localhost:3000';
-const API_URL: string = `${API_SERVER_ROOT_URL}/api`;
+const API_URL: string = `https://picsum.photos/200/300`;
 
 
 

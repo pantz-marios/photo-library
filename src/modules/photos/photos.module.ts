@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PhotosRoutingModule } from './photos-routing.module';
-import { PhotosComponent } from './photos.component';
+import { SinglePhotoPageComponent } from './pages/single-photo-page.component';
+import { RandomPhotoGalleryComponent } from './components/random-photo-gallery/random-photo-gallery.component';
+import { ImageLoaderModule } from '@modules/shared/directives/image-loader.module';
 
 
 
@@ -12,10 +14,15 @@ import { PhotosComponent } from './photos.component';
   imports: [
     CommonModule,
     FlexLayoutModule,
-    PhotosRoutingModule
+    PhotosRoutingModule,
+    ImageLoaderModule
   ],
   declarations: [
-    PhotosComponent
+    SinglePhotoPageComponent,
+    RandomPhotoGalleryComponent
   ],
+  exports: [
+    RandomPhotoGalleryComponent
+  ]
 })
 export class PhotosModule {}

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HomeComponent } from './home.component';
+import { PhotosModule } from '@modules/photos/photos.module';
 
 
 
@@ -10,7 +11,8 @@ import { HomeComponent } from './home.component';
 @NgModule({
   imports: [
     CommonModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    PhotosModule
   ],
   declarations: [
     HomeComponent

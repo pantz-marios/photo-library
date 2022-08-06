@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PhotosComponent } from './photos.component';
+import { SinglePhotoPageComponent } from './pages/single-photo-page.component';
 
 
 
 
 
 const routes: Routes = [
-  { path: ':photoId', component: PhotosComponent, data: {} },
+  { path: ':photoId', component: SinglePhotoPageComponent, data: {} },
   { path: '', redirectTo: '/' },
 ];
 

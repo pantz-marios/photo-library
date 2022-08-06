@@ -1,0 +1,17 @@
+
+<div style="display: flex; flex: 1;">
+  <div class="grid-pane">
+    <ng-container *ngFor="let photo of photos">
+      <ng-container *ngTemplateOutlet="photoTemplate; context: {photoContext: photo}"></ng-container>
+    </ng-container>
+  </div>
+</div>
+
+
+<!-- Grid Item -->
+<ng-template #photoTemplate let-photo="photoContext">
+  <div style="position: relative;">
+    <img image-loader class="thumbnail" src="{{photo.url}}" (onLoad)="onImageLoaded($event, imgPlaceholder)" />
+    <span #imgPlaceholder class="thumbnail-placeholder" style="background-color: #d0d0d0;"></span>
+  </div>
+</ng-template>
