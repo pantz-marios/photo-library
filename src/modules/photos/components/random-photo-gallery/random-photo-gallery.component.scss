@@ -41,6 +41,7 @@ $gridVerticalSpacing: 100px;
   background-size: cover;
   border-radius: 5px;
   box-shadow: 0 0px 0px rgba(0,0,0,0.15);
+  cursor: pointer;
 
   -webkit-transition: box-shadow 200ms ease-in-out;
   -ms-transition: box-shadow 200ms ease-in-out;
@@ -49,6 +50,10 @@ $gridVerticalSpacing: 100px;
 
 .thumbnail:hover {
   box-shadow: 0 0 15px 5px #a0a0a0;
+}
+
+.thumbnail:active {
+  box-shadow: 0 0 10px 3px #a0a0a0;
 }
 
 .thumbnail-placeholder {

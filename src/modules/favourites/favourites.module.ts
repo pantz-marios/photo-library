@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FavouritesComponent } from './favourites.component';
+import { FavouritesPageComponent } from './pages/favourites-page.component';
 import { FavouritesRoutingModule } from './favourites-routing.module';
 
 
@@ -15,7 +15,7 @@ import { FavouritesRoutingModule } from './favourites-routing.module';
     FavouritesRoutingModule
   ],
   declarations: [
-    FavouritesComponent
+    FavouritesPageComponent
   ],
 })
 export class FavouritesModule {}

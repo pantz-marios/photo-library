@@ -1,4 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { EventBusService, AppEvent } from '@modules/event-bus/event-bus.service';
+import { FavouritesState } from '@modules/favourites/state/favourites.state';
+import { FavouritesEvent } from '@modules/favourites/state/favourites.events';
 import { Photo } from '@modules/photos/service/photo.model';
 import { PhotoService } from '@modules/photos/service/photo.service';
 
@@ -13,8 +17,8 @@ import { PhotoService } from '@modules/photos/service/photo.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RandomPhotoGalleryComponent implements OnInit {
-
   public photos: Photo[] = [];
+  private eventBusServiceSubscriptions: Subscription = new Subscription();
 
   private readonly PHOTOS_COUNT = 30;
 
@@ -22,11 +26,32 @@ export class RandomPhotoGalleryComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
+    private eventBusService: EventBusService,
+    private favouritesState: FavouritesState,
     private photoService: PhotoService
   ) {}
 
 
   public ngOnInit() {
+
+    // when favourite photos are loaded(from FavouritesState), load component
+    const eventSubscription = this.eventBusService.on(FavouritesEvent.Init).subscribe((e: AppEvent) => this.init());
+    this.eventBusServiceSubscriptions.add(eventSubscription);
+
+    this.favouritesState.init();
+
+    this.init();
+  }
+
+  public ngOnDestroy() {
+
+  }
+
+
+  private init() {
+    if(!this.favouritesState.isLoaded()) {
+      return;
+    }
 
 
     //
@@ -47,14 +72,19 @@ export class RandomPhotoGalleryComponent implements OnInit {
         }
       );
     }
-
-  }
-
-  public ngOnDestroy() {
-
   }
 
 
+  public onPhotoClick(photo: Photo) {
+    if(!this.favouritesState.isLoaded()) {
+      return;
+    }
+
+    this.favouritesState.addPhoto(photo)
+    .then(() => {
+      console.log('photo added');
+    });
+  }
 
   public onImageLoaded(el, imgPlaceholderEl: HTMLSpanElement) {
     if(imgPlaceholderEl == null) {

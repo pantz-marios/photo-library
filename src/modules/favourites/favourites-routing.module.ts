@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { FavouritesComponent } from './favourites.component';
+import { FavouritesPageComponent } from './pages/favourites-page.component';
 
 
 
 
 
 const routes: Routes = [
-  { path: '', component: FavouritesComponent, data: {} }
+  { path: '', component: FavouritesPageComponent, data: {} }
 ];
 
 
