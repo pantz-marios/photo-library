@@ -15,7 +15,7 @@ export class PhotoService {
 
 
 
-  public getRandomPhoto(): Observable<any> {
+  public getRandomPhotoUrl(): Observable<any> {
     const randomPhotoServiceUrl = `${environment.API_URL}`;
 
     return from(new Promise((resolve, reject) => {

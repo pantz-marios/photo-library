@@ -58,9 +58,11 @@ export class RandomPhotoGalleryComponent implements OnInit {
     // The following should be replaced when infinite scrolling is implemented. 
     //
     for(let i=0 ; i<this.PHOTOS_COUNT ; i++) {
-      this.photoService.getRandomPhoto().subscribe(
+      this.photoService.getRandomPhotoUrl().subscribe(
         (photoUrl) => {
+          const photoId = photoUrl.substring(photoUrl.indexOf('?hmac=')+('?hmac=').length);
           this.photos = [...this.photos, {
+            id: photoId,
             url: photoUrl
           }];
 

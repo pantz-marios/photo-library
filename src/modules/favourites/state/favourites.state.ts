@@ -90,15 +90,15 @@ export class FavouritesState {
     });
   }
 
-  public deletePhoto(photo: Photo): void {
+  public deletePhoto(photoId: string): void {
     const photos = this.getPhotos();
-		const photoIndex = photos.findIndex((p) => p.url === photo.url);
+		const photoIndex = photos.findIndex((p) => p.id === photoId);
 
     if(photoIndex < 0) {
       return;
     }
 
-    const deletedPhoto = photos.filter((p) => p.url === photo.url)[0];
+    const deletedPhoto = photos.filter((p) => p.id === photoId)[0];
     photos.splice(photoIndex, 1);
     const newPhotos = [...photos];
 
