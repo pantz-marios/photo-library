@@ -1,7 +1,7 @@
 
 <div style="display: flex; flex: 1;">
   <div class="grid-pane">
-    <ng-container *ngFor="let photo of photos">
+    <ng-container *ngFor="let photo of (photos | async)">
       <ng-container *ngTemplateOutlet="photoTemplate; context: {photoContext: photo}"></ng-container>
     </ng-container>
   </div>

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FavouritesPageComponent } from './pages/favourites-page.component';
 import { FavouritesRoutingModule } from './favourites-routing.module';
+import { FavouritesPageComponent } from './pages/favourites-page.component';
+import { FavouritePhotoGalleryComponent } from './components/favourite-photo-gallery/favourite-photo-gallery.component';
+import { ImageLoaderModule } from '@modules/shared/directives/image-loader.module';
 
 
 
@@ -12,10 +14,12 @@ import { FavouritesRoutingModule } from './favourites-routing.module';
   imports: [
     CommonModule,
     FlexLayoutModule,
-    FavouritesRoutingModule
+    FavouritesRoutingModule,
+    ImageLoaderModule
   ],
   declarations: [
-    FavouritesPageComponent
+    FavouritesPageComponent,
+    FavouritePhotoGalleryComponent
   ],
 })
 export class FavouritesModule {}
