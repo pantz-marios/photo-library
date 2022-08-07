@@ -44,7 +44,7 @@ export class RandomPhotoGalleryComponent implements OnInit {
   }
 
   public ngOnDestroy() {
-
+    this.eventBusServiceSubscriptions.unsubscribe();
   }
 
 
