@@ -78,4 +78,18 @@ export class SinglePhotoPageComponent implements OnInit {
     this.cd.markForCheck();
   }
 
+  public onDelete() {
+    if(!this.favouritesState.isLoaded()) {
+      return;
+    }
+
+    this.favouritesState.deletePhoto(this.photoId)
+    .then(() => {
+      console.log('photo deleted');
+    })
+    .catch(() => {
+      console.log('photo NOT deleted');
+    });
+  }
+
 }

@@ -90,20 +90,26 @@ export class FavouritesState {
     });
   }
 
-  public deletePhoto(photoId: string): void {
+  public deletePhoto(photoId: string): Promise<any> {
     const photos = this.getPhotos();
 		const photoIndex = photos.findIndex((p) => p.id === photoId);
 
-    if(photoIndex < 0) {
-      return;
-    }
 
-    const deletedPhoto = photos.filter((p) => p.id === photoId)[0];
-    photos.splice(photoIndex, 1);
-    const newPhotos = [...photos];
+    return new Promise((resolve, reject) => {
+      if(photoIndex < 0) {
+        reject(null);
+      }
+  
+      const deletedPhoto = photos.filter((p) => p.id === photoId)[0];
+      photos.splice(photoIndex, 1);
+      const newPhotos = [...photos];
 
-    this.photosObserved.next(newPhotos);
-    this.eventBusService.emit(FavouritesEvent.Delete, deletedPhoto);
+      this.favouritesService.saveFavourites(newPhotos).subscribe(() => {
+        this.photosObserved.next(newPhotos);
+        this.eventBusService.emit(FavouritesEvent.Delete, deletedPhoto);
+        resolve(newPhotos);
+      });
+    });
   }
 
 }

@@ -30,3 +30,26 @@ $gridVerticalSpacing: 100px;
   height: $gridItemHeight;
   border-radius: 4px;
 }
+
+
+
+.delete-button {
+  background-color: #e81a1a; 
+  color: white; 
+  font-size: 14px; 
+  font-weight: 500; 
+  line-height: 20px; 
+  border: 0; 
+  border-radius: 3px;
+  padding: 8px 25px 8px 25px;
+  cursor: pointer;
+  outline: none;
+}
+
+.delete-button:hover {
+  background-color: #f44242;
+}
+
+.delete-button:active {
+  background-color: #ca4444;
+}

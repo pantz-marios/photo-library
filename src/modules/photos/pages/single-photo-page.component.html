@@ -1,7 +1,12 @@
 
-<div style="display: flex; flex: 1; justify-content: center; align-items: center;">
+<div style="display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: center;">
   <div style="position: relative;">
     <img image-loader class="thumbnail" [attr.src]="photoUrl" (onLoad)="onImageLoaded($event, imgPlaceholder)" />
     <span #imgPlaceholder class="thumbnail-placeholder" style="background-color: #d0d0d0;"></span>
   </div>
+
+  <button class="delete-button" style="margin-top: 30px;" (click)="onDelete()">
+    Remove from favorites
+  </button>
+
 </div>
