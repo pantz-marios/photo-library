@@ -53,3 +53,28 @@ $gridVerticalSpacing: 100px;
 .delete-button:active {
   background-color: #ca4444;
 }
+
+.delete-button[disabled] {
+  background-color: #f77979;
+  cursor: default
+}
+
+.delete-button[disabled]:hover {
+  background-color: #f77979;
+}
+
+.delete-button[disabled]:active {
+  background-color: #f77979;
+}
+
+
+
+.error-msg {
+  padding: 20px 30px;
+  color: #ffffff;
+  font-size: 18px;
+  font-family: Ubuntu;
+  background-color: #f44242;
+  border: #ca4444 3px solid;
+  border-radius: 5px;
+}

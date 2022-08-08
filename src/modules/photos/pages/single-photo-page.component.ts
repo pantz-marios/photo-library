@@ -18,6 +18,8 @@ import { FavouritesEvent } from '@modules/favourites/state/favourites.events';
 export class SinglePhotoPageComponent implements OnInit {
   public photoId = null;
   public photoUrl = null;
+  public isDeleteButtonDisabled = false;
+  public photoNotFound = false;
   private routeParamsSubscription: Subscription = null;
   private eventBusServiceSubscriptions: Subscription = new Subscription();
 
@@ -65,6 +67,9 @@ export class SinglePhotoPageComponent implements OnInit {
       const photo = matchedPhotos[0];
       this.photoUrl = photo.url;
     }
+    else {
+      this.photoNotFound = true;
+    }
   }
 
 
@@ -86,6 +91,7 @@ export class SinglePhotoPageComponent implements OnInit {
     this.favouritesState.deletePhoto(this.photoId)
     .then(() => {
       console.log('photo deleted');
+      this.isDeleteButtonDisabled = true;
     })
     .catch(() => {
       console.log('photo NOT deleted');
