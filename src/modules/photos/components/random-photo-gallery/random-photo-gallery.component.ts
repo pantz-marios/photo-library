@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { EventBusService, AppEvent } from '@modules/event-bus/event-bus.service';
 import { FavouritesState } from '@modules/favourites/state/favourites.state';
@@ -18,9 +18,16 @@ import { PhotoService } from '@modules/photos/service/photo.service';
 })
 export class RandomPhotoGalleryComponent implements OnInit {
   public photos: Photo[] = [];
+  private loadingInProgress = false;
   private eventBusServiceSubscriptions: Subscription = new Subscription();
 
-  private readonly PHOTOS_COUNT = 30;
+  private onWindowScrollHandler = null;
+
+  private readonly PHOTOS_PER_PAGE = 3 * 8;
+  private readonly PHOTO_HEIGHT = 300;
+  private readonly GRID_VERTICAL_SPACING = 100;
+  
+  @ViewChild('galleryContainer', {static: false}) galleryContainer: ElementRef<HTMLDivElement>;
 
 
 
@@ -45,7 +52,12 @@ export class RandomPhotoGalleryComponent implements OnInit {
 
   public ngOnDestroy() {
     this.eventBusServiceSubscriptions.unsubscribe();
+
+    if(this.onWindowScroll != null) {
+      window.removeEventListener('scroll', this.onWindowScroll, true);
+    }
   }
+
 
 
   private init() {
@@ -54,27 +66,63 @@ export class RandomPhotoGalleryComponent implements OnInit {
     }
 
 
-    //
-    // The following should be replaced when infinite scrolling is implemented. 
-    //
-    for(let i=0 ; i<this.PHOTOS_COUNT ; i++) {
-      this.photoService.getRandomPhotoUrl().subscribe(
-        (photoUrl) => {
-          const photoId = photoUrl.substring(photoUrl.indexOf('?hmac=')+('?hmac=').length);
-          this.photos = [...this.photos, {
-            id: photoId,
-            url: photoUrl
-          }];
+    this.onWindowScrollHandler = (e) => this.onWindowScroll(e);
+    window.addEventListener('scroll', this.onWindowScrollHandler, true);
 
-          this.cd.markForCheck();
-          console.log(photoUrl);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
+    this.loadMorePhotos();
   }
+
+  private loadMorePhotos() {
+    this.loadingInProgress = true;
+      
+    // Promises to load more photo urls
+    const randomPhotoUrlsPromises: Promise<any>[] = (() => {
+      let promisesList: Promise<any>[] = [];
+      for(let i=0 ; i<this.PHOTOS_PER_PAGE ; i++) {
+        promisesList.push(this.photoService.getRandomPhotoUrl().toPromise());
+      }
+      return promisesList;
+    })();
+      
+    // wait for all Promises(that return photo urls) to be completed 
+    Promise.allSettled(randomPhotoUrlsPromises)
+    .then((results) => {
+      const newPhotos = results
+                        .filter((res) => res.status === 'fulfilled')
+                        .map((res) => {
+                          const photoUrl = (<any>res).value;
+                          const photoId = photoUrl.substring(photoUrl.indexOf('?hmac=')+('?hmac=').length);
+
+                          return {
+                            id: photoId,
+                            url: photoUrl
+                          };
+                        });
+
+      this.photos = [...this.photos, ...newPhotos];
+      this.cd.markForCheck();
+      this.loadingInProgress = false;
+    });
+  }
+
+  private onWindowScroll(e) {
+    if(this.galleryContainer == null || e.target !== this.galleryContainer.nativeElement) {
+      return;
+    }
+
+    const galleryContainerEl = this.galleryContainer.nativeElement;
+    const maxScroll = galleryContainerEl.scrollHeight;
+    const currentScroll = galleryContainerEl.clientHeight + galleryContainerEl.scrollTop;
+    const bufferSpacing = this.PHOTO_HEIGHT + this.GRID_VERTICAL_SPACING;
+    const isScrolledToBottom = (maxScroll - currentScroll) <= bufferSpacing;
+
+    if(!isScrolledToBottom || this.loadingInProgress) {
+      return;
+    }
+
+    this.loadMorePhotos();
+  }
+
 
 
   public onPhotoClick(photo: Photo) {
