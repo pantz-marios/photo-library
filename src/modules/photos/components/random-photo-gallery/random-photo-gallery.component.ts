@@ -18,7 +18,7 @@ import { PhotoService } from '@modules/photos/service/photo.service';
 })
 export class RandomPhotoGalleryComponent implements OnInit {
   public photos: Photo[] = [];
-  private loadingInProgress = false;
+  public loadingInProgress = new BehaviorSubject(false);
   private eventBusServiceSubscriptions: Subscription = new Subscription();
 
   private onWindowScrollHandler = null;
@@ -73,7 +73,7 @@ export class RandomPhotoGalleryComponent implements OnInit {
   }
 
   private loadMorePhotos() {
-    this.loadingInProgress = true;
+    this.loadingInProgress.next(true);
       
     // Promises to load more photo urls
     const randomPhotoUrlsPromises: Promise<any>[] = (() => {
@@ -101,7 +101,7 @@ export class RandomPhotoGalleryComponent implements OnInit {
 
       this.photos = [...this.photos, ...newPhotos];
       this.cd.markForCheck();
-      this.loadingInProgress = false;
+      this.loadingInProgress.next(false);
     });
   }
 
@@ -116,7 +116,7 @@ export class RandomPhotoGalleryComponent implements OnInit {
     const bufferSpacing = this.PHOTO_HEIGHT + this.GRID_VERTICAL_SPACING;
     const isScrolledToBottom = (maxScroll - currentScroll) <= bufferSpacing;
 
-    if(!isScrolledToBottom || this.loadingInProgress) {
+    if(!isScrolledToBottom || this.loadingInProgress.getValue()) {
       return;
     }
 

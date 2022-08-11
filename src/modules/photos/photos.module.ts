@@ -5,6 +5,7 @@ import { PhotosRoutingModule } from './photos-routing.module';
 import { SinglePhotoPageComponent } from './pages/single-photo-page.component';
 import { RandomPhotoGalleryComponent } from './components/random-photo-gallery/random-photo-gallery.component';
 import { ImageLoaderModule } from '@modules/shared/directives/image-loader.module';
+import { RippleLoaderModule } from '@modules/shared/components/ripple-loader/ripple-loader.module';
 
 
 
@@ -15,7 +16,8 @@ import { ImageLoaderModule } from '@modules/shared/directives/image-loader.modul
     CommonModule,
     FlexLayoutModule,
     PhotosRoutingModule,
-    ImageLoaderModule
+    ImageLoaderModule,
+    RippleLoaderModule
   ],
   declarations: [
     SinglePhotoPageComponent,

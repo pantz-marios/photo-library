@@ -1,10 +1,18 @@
 
-<div #galleryContainer style="display: flex; flex: 1; overflow: auto;">
+<div #galleryContainer style="display: flex; flex: 1; flex-direction: column; overflow: auto;">
   <div class="grid-pane">
     <ng-container *ngFor="let photo of photos">
       <ng-container *ngTemplateOutlet="photoTemplate; context: {photoContext: photo}"></ng-container>
     </ng-container>
   </div>
+
+  <ng-container *ngIf="loadingInProgress | async">
+    <div style="display: flex; flex: 1; align-items: center; justify-content: center; margin-bottom: 50px;">
+      <!-- <h1>Loading ...</h1> -->
+      <ripple-loader></ripple-loader>
+    </div>
+  </ng-container>
+
 </div>
 
 
